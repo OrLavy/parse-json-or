@@ -4,77 +4,118 @@ Safely parse JSON strings while explicitly indicating the behaviour in case of a
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+Just install the package (``` npm i parse-json-or --save ```)
+
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
+No Prerequisites
 
 ### Installing
 
-A step by step series of examples that tell you have to get a development env running
-
-Say what the step will be
+* Just install the package
 
 ```
-Give the example
+ npm i parse-json-or --save
 ```
 
-And repeat
+Use it in your code
 
 ```
-until finished
+// This line is the same for all of the examples
+let parseJson = require('parse-json-or');
+  
+// We will use these values for demonstration
+let demoObject = { foo: 1, bar: 2 };
+let validJsonString = JSON.stringify(demoObject);
+let invalidJsonString = "a{}" ;
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+Parse JSON safely or get any value in case of failure :
+```
+// Parse JSON safely or get any value in case of failure
+let value;
+  
+value = parseJson.orValue(validJsonString, orValue); // value = { foo: 1, bar: 2 }  
+  
+value = parseJson.orValue(invalidJsonString, "You can use value from any type"); // value = "You can use value from any type"
+  
+value = parseJson.orValue(invalidJsonString, 15); // value = 15
+  
+value = parseJson.orValue(invalidJsonString, true); // value = true
+  
+value = parseJson.orValue(invalidJsonString, { evenObjects: true }); // value = { evenObjects: true }
+```
+
+Parse JSON safely or raise an error created with a message that is created from the given string in case of failure :
+```
+// Parse JSON safely or raise an error (created from a string) in case of failure
+let errorBuilderString = "This is a string message"
+  
+let value;
+value = parseJson.orError(validJsonString, orValue); // value = { foo: 1, bar: 2}
+  
+try {
+    value = parseJson.orError(invalidJsonString, errorBuilderString); // error = "You can use value from any type";
+} catch (err) {
+    console.log(err.message); // "This is a string message"
+}
+
+```
+
+Parse JSON safely or raise an error created with a message that is created from a given function in case of failure :
+```
+// Parse JSON safely or raise an error (created from a string) in case of failure
+let errorBuilderFunction = () => "This is a string message"
+  
+let value;
+value = parseJson.orError(validJsonString, orValue); // value = { foo: 1, bar: 2}
+  
+try {
+    value = parseJson.orError(invalidJsonString, errorBuilderFunction); // error = z
+} catch (err) {
+    console.log(err.message); // "This is a string message"
+}
+
+```
+
+Parse JSON safely or raise an error created with a message that is created from a given function (with parsing parameters) in case of failure :
+```
+// Parse JSON safely or raise an error (created from a string) in case of failure
+let errorBuilderFunction = (parsingError, originalString) => `${parsingError}:${originalString}`;
+  
+let value;
+value = parseJson.orError(validJsonString, orValue); // value = { foo: 1, bar: 2}
+  
+try {
+    value = parseJson.orError(invalidJsonString, errorBuilderFunction); 
+} catch (err) {
+    console.log(err.message); // "SyntaxError: Unexpected token a in JSON at position 0:a{}"; 
+}
+
+```
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
 ```
-Give an example
+npm run test
 ```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [lodash](https://lodash.com/docs/) - A modern JavaScript utility library delivering modularity, performance and extras.
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+We are open to your contribution.
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
+We use [SemVer](http://semver.org/) for versioning.
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+* **Or Lavy** - *Initial work* - [OrLavy](https://github.com/OrLavy)
 
 ## License
 
@@ -82,6 +123,3 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
