@@ -1,4 +1,4 @@
-const parseJsonOr = require('./lib/parseJsonOr');
+const parseJsonOr = require('./parseJsonOr');
 
 /**
  * Returns the parsed json string or the given object.

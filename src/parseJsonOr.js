@@ -2,8 +2,33 @@ const _ = require('lodash');
 
 /**
  *
- * @param {string} jsonString The given json string to parse.
+ * @param {string} parsingError
+ * @param {string} jsonString
  * @param {function|string|null} [errorBuilder=null] Either a function with the signature of [(parsingError, originalJSONString): string]
+ * or a string that will be used as the error value.
+ * @returns {string}
+ */
+function buildErrorMessage(parsingError, jsonString, errorBuilder) {
+    let errorMessage = null;
+
+    if (_.isNil(errorBuilder)) {
+        errorMessage = parsingError;
+    } else if (_.isFunction(errorBuilder)) {
+        errorMessage = errorBuilder(parsingError, jsonString);
+    } else if (_.isString(errorBuilder)) {
+        errorMessage = errorBuilder;
+    } else {
+        throw new Error(`The "errorBuilder" parameter must be a function or a string, instead it is : ${JSON.stringify(errorBuilder)}`);
+    }
+
+    return errorMessage;
+}
+
+/**
+ *
+ * @param {string} jsonString The given json string to parse.
+ * @param {function|string|null} [errorBuilder=null] Either a function with the signature of
+ * [(parsingError, originalJSONString): string]
  * or a string that will be used as the error value.
  * @returns {any} The parsed json string (in cases the parsing was successful), the error built using the given builder if not.
  */
@@ -30,31 +55,6 @@ function parseJsonOrValue(jsonString, optionalValue = null) {
         optionalValue;
     }
 }
-
-/**
- *
- * @param {string} parsingError
- * @param {string} jsonString
- * @param {function|string|null} [errorBuilder=null] Either a function with the signature of [(parsingError, originalJSONString): string]
- * or a string that will be used as the error value.
- * @returns {string}
- */
-function buildErrorMessage(parsingError, jsonString, errorBuilder = null) {
-    let errorMessage;
-
-    if (errorBuilder === null) {
-
-    } else if (_.isFunction(errorBuilder)) {
-        errorMessage = errorBuilder(parsingError, jsonString);
-    } else if (_.isString(errorBuilder)) {
-        errorMessage = errorBuilder;
-    } else {
-        throw new Error(`The "errorBuilder" parameter must be a function or a string, instead it is : ${JSON.stringify(errorBuilder)}`);
-    }
-
-    return errorMessage;
-}
-
 
 module.exports = {
     parseJsonOrError,
