@@ -1,8 +1,8 @@
 {
   "name": "parse-json-or",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Safely parse JSON strings while explicitly indicating the behaviour in case of a parsing error",
-  "main": "parse-json-or",
+  "main": "lib/parse-json-or.js",
   "scripts": {
     "build": "webpack --env dev && webpack --env build && npm run test",
     "dev": "webpack --progress --colors --watch --env dev",
