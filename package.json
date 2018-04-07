@@ -12,8 +12,16 @@
     "gracefil",
     "error",
     "optional",
-    "string",
-  ]
+    "string"
+  ],
   "author": "Or Lavy <orlavyil@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "bugs": "https://github.com/OrLavy/parse-json-or/issues",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.0.5"
+  },
+  "dependencies": {
+    "lodash": "^4.17.5"
+  }
 }
