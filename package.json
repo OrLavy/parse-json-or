@@ -1,0 +1,19 @@
+{
+  "name": "parse-json-or",
+  "version": "1.0.0",
+  "description": "Safely parse JSON strings while explicitly indicating the behaviour in case of a parsing error",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "parse",
+    "json",
+    "gracefil",
+    "error",
+    "optional",
+    "string",
+  ]
+  "author": "Or Lavy <orlavyil@gmail.com>",
+  "license": "MIT"
+}
