@@ -1,6 +1,6 @@
 {
   "name": "parse-json-or",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Safely parse JSON strings while explicitly indicating the behaviour in case of a parsing error",
   "main": "lib/parse-json-or.js",
   "scripts": {
