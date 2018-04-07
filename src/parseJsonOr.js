@@ -52,7 +52,7 @@ function parseJsonOrValue(jsonString, optionalValue = null) {
         const parsedJson = JSON.parse(jsonString);
         return parsedJson;
     } catch (parsingError) {
-        optionalValue;
+        return optionalValue;
     }
 }
 
