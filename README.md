@@ -49,7 +49,7 @@ value = parseJson.orValue(invalidJsonString, true); // value = true
 value = parseJson.orValue(invalidJsonString, { evenObjects: true }); // value = { evenObjects: true }
 ```
 
-### orError(jsonString: string, errorBuilder)
+### orError(jsonString: string, errorBuilder: string)
 #### Parse JSON safely or raise an error created with a message that is created from the given string in case of failure :
 ```javascript
 // Parse JSON safely or raise an error (created from a string) in case of failure
