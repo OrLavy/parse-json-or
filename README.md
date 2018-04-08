@@ -19,26 +19,28 @@ No Prerequisites
  npm i parse-json-or --save
 ```
 
-Use it in your code
+## Use it in your code
 
-```
-// This line is the same for all of the examples
+### Variables used in our examples :
+```javascript
+// Require the package
 let parseJson = require('parse-json-or');
   
-// We will use these values for demonstration
+// We will use these values for our examples
 let demoObject = { foo: 1, bar: 2 };
 let validJsonString = JSON.stringify(demoObject);
 let invalidJsonString = "a{}" ;
 ```
 
-Parse JSON safely or get any value in case of failure :
-```
-// Parse JSON safely or get any value in case of failure
+### orValue(jsonString: string, orValue: *)
+#### Parse JSON safely or get the 'orValue' in case of failure :
+```javascript
+// Parse JSON safely or return the 'orValue'
 let value;
   
-value = parseJson.orValue(validJsonString, orValue); // value = { foo: 1, bar: 2 }  
+value = parseJson.orValue(validJsonString, demoObject); // value = { foo: 1, bar: 2 }  
   
-value = parseJson.orValue(invalidJsonString, "You can use value from any type"); // value = "You can use value from any type"
+value = parseJson.orValue(invalidJsonString, "You can use any value from any type"); // value = "You can use any value from any type"
   
 value = parseJson.orValue(invalidJsonString, 15); // value = 15
   
@@ -47,13 +49,14 @@ value = parseJson.orValue(invalidJsonString, true); // value = true
 value = parseJson.orValue(invalidJsonString, { evenObjects: true }); // value = { evenObjects: true }
 ```
 
-Parse JSON safely or raise an error created with a message that is created from the given string in case of failure :
-```
+### orError(jsonString: string, errorBuilder)
+#### Parse JSON safely or raise an error created with a message that is created from the given string in case of failure :
+```javascript
 // Parse JSON safely or raise an error (created from a string) in case of failure
-let errorBuilderString = "This is a string message"
-  
+let errorBuilderString = "This is a string message";
 let value;
-value = parseJson.orError(validJsonString, orValue); // value = { foo: 1, bar: 2}
+  
+value = parseJson.orError(validJsonString, errorBuilderString); // value = { foo: 1, bar: 2}
   
 try {
     value = parseJson.orError(invalidJsonString, errorBuilderString); // error = "You can use value from any type";
@@ -63,29 +66,14 @@ try {
 
 ```
 
-Parse JSON safely or raise an error created with a message that is created from a given function in case of failure :
-```
-// Parse JSON safely or raise an error (created from a string) in case of failure
-let errorBuilderFunction = () => "This is a string message"
-  
-let value;
-value = parseJson.orError(validJsonString, orValue); // value = { foo: 1, bar: 2}
-  
-try {
-    value = parseJson.orError(invalidJsonString, errorBuilderFunction); // error = z
-} catch (err) {
-    console.log(err.message); // "This is a string message"
-}
-
-```
-
-Parse JSON safely or raise an error created with a message that is created from a given function (with parsing parameters) in case of failure :
-```
+### orError(jsonString: string, errorBuilder: function)
+#### Parse JSON safely or throw an error with a 'message' property that is the returned value from the passed function 
+```javascript
 // Parse JSON safely or raise an error (created from a string) in case of failure
 let errorBuilderFunction = (parsingError, originalString) => `${parsingError}:${originalString}`;
   
 let value;
-value = parseJson.orError(validJsonString, orValue); // value = { foo: 1, bar: 2}
+value = parseJson.orError(validJsonString, errorBuilderFunction); // value = { foo: 1, bar: 2}
   
 try {
     value = parseJson.orError(invalidJsonString, errorBuilderFunction); 
@@ -94,6 +82,21 @@ try {
 }
 
 ```
+
+### orError(jsonString: string)
+```javascript
+// In case that the no 'errorBuilder' is given, the default error message will be used.
+let value;
+value = parseJson.orError(validJsonString); // value = { foo: 1, bar: 2}
+  
+try {
+    value = parseJson.orError(invalidJsonString, errorBuilderFunction); // error = z
+} catch (err) {
+    console.log(err.message); // "SyntaxError: Unexpected token a in JSON at position 0"
+}
+
+``` 
+
 
 ## Running the tests
 
